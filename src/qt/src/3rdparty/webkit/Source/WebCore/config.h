@@ -53,6 +53,10 @@
 
 #else /* !USE(EXPORT_MACROS) */
 
+#if OS(SOLARIS)
+#define USE_SYSTEM_MALLOC 1
+#endif
+
 #if !PLATFORM(CHROMIUM) && OS(WINDOWS) && !defined(BUILDING_WX__) && !COMPILER(GCC)
 #if defined(BUILDING_JavaScriptCore) || defined(BUILDING_WTF)
 #define JS_EXPORTDATA __declspec(dllexport)

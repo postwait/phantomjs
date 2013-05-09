@@ -92,6 +92,7 @@ namespace JSC {
         static const size_t impreciseCount = impreciseCutoff / impreciseStep - 1;
 
         typedef HashSet<MarkedBlock*>::iterator BlockIterator;
+        typedef HashSet<MarkedBlock*>::const_iterator ConstBlockIterator;
 
         struct SizeClass {
             SizeClass();

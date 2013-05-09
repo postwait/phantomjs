@@ -1317,7 +1317,7 @@ void dtoa(DtoaBuffer result, double dd, int ndigits, bool& signOut, int& exponen
     // roundingNone only allowed (only sensible?) with leftright set.
     ASSERT(!roundingNone || leftright);
 
-    ASSERT(!isnan(dd) && !isinf(dd));
+    ASSERT(!std::isnan(dd) && !isinf(dd));
 
     int bbits, b2, b5, be, dig, i, ieps, ilim = 0, ilim0, ilim1 = 0,
         j, j1, k, k0, k_check, m2, m5, s2, s5,
@@ -1811,8 +1811,8 @@ static ALWAYS_INLINE void copyAsciiToUTF16(UChar* next, const char* src, unsigne
 unsigned numberToString(double d, NumberToStringBuffer buffer)
 {
     // Handle NaN and Infinity.
-    if (isnan(d) || isinf(d)) {
-        if (isnan(d)) {
+    if (std::isnan(d) || isinf(d)) {
+        if (std::isnan(d)) {
             copyAsciiToUTF16(buffer, "NaN", 3);
             return 3;
         }

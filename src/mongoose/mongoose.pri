@@ -1,6 +1,7 @@
 VPATH += $$PWD
 INCLUDEPATH += $$PWD
 
+QMAKE_CFLAGS += -std=c99
 SOURCES += mongoose.c
 HEADERS += mongoose.h
 linux*:LIBS += -ldl

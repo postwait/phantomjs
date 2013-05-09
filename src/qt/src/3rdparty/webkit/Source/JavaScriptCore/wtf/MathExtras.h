@@ -142,7 +142,7 @@ inline long long abs(long long num) { return _abs64(num); }
 #endif
 
 inline bool isinf(double num) { return !_finite(num) && !_isnan(num); }
-inline bool isnan(double num) { return !!_isnan(num); }
+inline bool std::isnan(double num) { return !!_isnan(num); }
 inline bool signbit(double num) { return _copysign(1.0, num) < 0; }
 
 inline double nextafter(double x, double y) { return _nextafter(x, y); }
@@ -252,7 +252,7 @@ inline int clampToInteger(unsigned value)
     return static_cast<int>(std::min(value, static_cast<unsigned>(std::numeric_limits<int>::max())));
 }
 
-#if !COMPILER(MSVC) && !(COMPILER(RVCT) && PLATFORM(BREWMP)) && !OS(SOLARIS) && !OS(SYMBIAN)
+#if !COMPILER(MSVC) && !(COMPILER(RVCT) && PLATFORM(BREWMP)) && !(OS(SOLARIS) && COMPILER(GCC) && (GCC_VERSION < 40600)) && !OS(SYMBIAN)
 using std::isfinite;
 using std::isinf;
 using std::isnan;

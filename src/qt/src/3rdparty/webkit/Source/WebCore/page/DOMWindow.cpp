@@ -333,13 +333,13 @@ void DOMWindow::adjustWindowRect(const FloatRect& screen, FloatRect& window, con
     ASSERT(isfinite(window.height()));
     
     // Update window values if new requested values are not NaN.
-    if (!isnan(pendingChanges.x()))
+    if (!std::isnan(pendingChanges.x()))
         window.setX(pendingChanges.x());
-    if (!isnan(pendingChanges.y()))
+    if (!std::isnan(pendingChanges.y()))
         window.setY(pendingChanges.y());
-    if (!isnan(pendingChanges.width()))
+    if (!std::isnan(pendingChanges.width()))
         window.setWidth(pendingChanges.width());
-    if (!isnan(pendingChanges.height()))
+    if (!std::isnan(pendingChanges.height()))
         window.setHeight(pendingChanges.height());
     
     // Resize the window to between 100 and the screen width and height.

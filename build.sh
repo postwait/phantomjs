@@ -21,6 +21,16 @@ elif [[ $OSTYPE = darwin* ]]; then
    COMPILE_JOBS=4
 elif [[ $OSTYPE == freebsd* ]]; then
    COMPILE_JOBS=`sysctl -n hw.ncpu`
+elif [[ $OSTYPE == solaris* ]]; then
+  COMPILE_JOBS=`psrinfo -v | grep on-line | wc -l`
+  PATH=/usr/gnu/bin:$PATH
+  QT_CFG="-D USE_SYSTEM_MALLOC=1 -no-javascript-jit $QT_CFG"
+
+  if [[ "`uname -v`" == omnios* ]]; then
+    QT_CFG="-platform solaris-g++ -I/opt/omni/include/ -I/opt/omni/include/freetype2/ -L/opt/omni/lib -R/opt/omni/lib $QT_CFG"
+    PATH=$PATH:/opt/gcc-4.7.2/bin
+  fi
+  export PATH
 else
    CPU_CORES=`grep -c ^processor /proc/cpuinfo`
    if [[ "$CPU_CORES" -gt 1 ]]; then
@@ -37,7 +47,7 @@ until [ -z "$1" ]; do
     case $1 in
         "--qt-config")
             shift
-            QT_CFG=" $1"
+            QT_CFG=" $1 $QT_CFG"
             shift;;
         "--qmake-args")
             shift

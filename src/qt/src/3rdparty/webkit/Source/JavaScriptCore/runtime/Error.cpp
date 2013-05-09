@@ -148,7 +148,9 @@ JSObject* addErrorInfo(ExecState* exec, JSObject* error, int line, const SourceC
     stackString.append(error->toString(exec));
 
     bool functionKnown;
+#if ENABLE(JIT)
     ReturnAddressPtr pc;
+#endif
 
     while (!frame->hasHostCallFrameFlag()) {
         CodeBlock* codeBlock = frame->codeBlock();
@@ -186,9 +188,11 @@ JSObject* addErrorInfo(ExecState* exec, JSObject* error, int line, const SourceC
         stackString.append(sourceURL);
         stackString.append(":");
 
+#if ENABLE(JIT)
         if (frame != exec) {
             line = codeBlock->lineNumberForBytecodeOffset(codeBlock->bytecodeOffset(pc));
         }
+#endif
 
         arrayItem->putWithAttributes(
             globalData, Identifier(globalData, linePropertyName),
@@ -203,7 +207,9 @@ JSObject* addErrorInfo(ExecState* exec, JSObject* error, int line, const SourceC
 
         stackArray->push(exec, JSValue(arrayItem));
 
+#if ENABLE(JIT)
         pc = frame->returnPC();
+#endif
         frame = frame->callerFrame();
     }
 

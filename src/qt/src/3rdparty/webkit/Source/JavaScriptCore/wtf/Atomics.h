@@ -61,7 +61,9 @@
 
 #include "Platform.h"
 
-#if OS(WINDOWS)
+#if __cplusplus >= 201103L
+#include <atomic>
+#elif OS(WINDOWS)
 #include <windows.h>
 #elif OS(DARWIN)
 #include <libkern/OSAtomic.h>
@@ -70,7 +72,9 @@
 #elif OS(QNX)
 #include <atomic.h>
 #elif COMPILER(GCC) && !OS(SYMBIAN)
-#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#include <ciso646>
+#ifdef _LIBCPP_VERSION
+#elif (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
 #include <ext/atomicity.h>
 #else
 #include <bits/atomicity.h>
@@ -79,7 +83,11 @@
 
 namespace WTF {
 
-#if OS(WINDOWS)
+#if __cplusplus >= 201103L
+#define WTF_USE_LOCKFREE_THREADSAFEREFCOUNTED 1
+inline int atomicIncrement(std::atomic<int> * addend) { return *addend++; }
+inline int atomicDecrement(std::atomic<int> * addend) { return *addend--; }
+#elif OS(WINDOWS)
 #define WTF_USE_LOCKFREE_THREADSAFEREFCOUNTED 1
 
 #if COMPILER(MINGW) || COMPILER(MSVC7_OR_LOWER) || OS(WINCE)
@@ -109,14 +117,25 @@ inline int atomicDecrement(int volatile* addend) { return (int) atomic_sub_value
 #elif COMPILER(GCC) && !CPU(SPARC64) && !OS(SYMBIAN) // sizeof(_Atomic_word) != sizeof(int) on sparc64 gcc
 #define WTF_USE_LOCKFREE_THREADSAFEREFCOUNTED 1
 
+#ifdef _LIBCPP_VERSION
+inline int atomicIncrement(int volatile* addend) { return __sync_fetch_and_add(addend, 1) + 1; }
+inline int atomicDecrement(int volatile* addend) { return __sync_fetch_and_add(addend, -1) - 1; }
+#else
 inline int atomicIncrement(int volatile* addend) { return __gnu_cxx::__exchange_and_add(addend, 1) + 1; }
 inline int atomicDecrement(int volatile* addend) { return __gnu_cxx::__exchange_and_add(addend, -1) - 1; }
+#endif
 
 #endif
 
+#if __cplusplus >= 201103L
+typedef std::atomic<int> atomic_int;
+#else
+typedef int volatile atomic_int;
+#endif
 } // namespace WTF
 
 #if USE(LOCKFREE_THREADSAFEREFCOUNTED)
+using WTF::atomic_int;
 using WTF::atomicDecrement;
 using WTF::atomicIncrement;
 #endif

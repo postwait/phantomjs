@@ -118,6 +118,8 @@ static void resolveLibrary()
         if (!local_res_nclose)
             local_res_ninit = 0;
     }
+    if (local_res_ninit)
+        local_res_init = 0;
 #endif
 }
 

@@ -115,6 +115,16 @@ mac {
 #    CONFIG += x86 ppc
 }
 
+solaris* {
+    LIBS += -lsocket -lnsl
+    QMAKE_LFLAGS += '-R/opt/omni/lib -Lqt/plugins/codecs'
+    QTPLUGIN += \
+        qcncodecs \
+        qjpcodecs \
+        qkrcodecs \
+        qtwcodecs
+}
+
 win32-msvc* {
     LIBS += -lCrypt32
     INCLUDEPATH += breakpad/src

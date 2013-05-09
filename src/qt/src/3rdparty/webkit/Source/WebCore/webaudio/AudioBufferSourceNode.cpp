@@ -442,7 +442,7 @@ double AudioBufferSourceNode::totalPitchRate()
     totalRate = max(0.0, totalRate);
     totalRate = min(AudioResampler::MaxRate, totalRate);
     
-    bool isTotalRateValid = !isnan(totalRate) && !isinf(totalRate);
+    bool isTotalRateValid = !std::isnan(totalRate) && !isinf(totalRate);
     ASSERT(isTotalRateValid);
     if (!isTotalRateValid)
         totalRate = 1.0;

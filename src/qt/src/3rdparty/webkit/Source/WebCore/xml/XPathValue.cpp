@@ -76,7 +76,7 @@ bool Value::toBoolean() const
         case BooleanValue:
             return m_bool;
         case NumberValue:
-            return m_number != 0 && !isnan(m_number);
+            return m_number != 0 && !std::isnan(m_number);
         case StringValue:
             return !m_data->m_string.isEmpty();
     }
@@ -125,7 +125,7 @@ String Value::toString() const
         case StringValue:
             return m_data->m_string;
         case NumberValue:
-            if (isnan(m_number))
+            if (std::isnan(m_number))
                 return "NaN";
             if (m_number == 0)
                 return "0";

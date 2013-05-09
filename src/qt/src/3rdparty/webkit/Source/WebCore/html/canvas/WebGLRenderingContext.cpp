@@ -982,13 +982,13 @@ void WebGLRenderingContext::clearColor(GC3Dfloat r, GC3Dfloat g, GC3Dfloat b, GC
 {
     if (isContextLost())
         return;
-    if (isnan(r))
+    if (std::isnan(r))
         r = 0;
-    if (isnan(g))
+    if (std::isnan(g))
         g = 0;
-    if (isnan(b))
+    if (std::isnan(b))
         b = 0;
-    if (isnan(a))
+    if (std::isnan(a))
         a = 1;
     m_clearColor[0] = r;
     m_clearColor[1] = g;
@@ -3870,13 +3870,13 @@ void WebGLRenderingContext::viewport(GC3Dint x, GC3Dint y, GC3Dsizei width, GC3D
 {
     if (isContextLost())
         return;
-    if (isnan(x))
+    if (std::isnan(x))
         x = 0;
-    if (isnan(y))
+    if (std::isnan(y))
         y = 0;
-    if (isnan(width))
+    if (std::isnan(width))
         width = 100;
-    if (isnan(height))
+    if (std::isnan(height))
         height = 100;
     if (!validateSize(width, height))
         return;

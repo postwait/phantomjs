@@ -585,7 +585,7 @@ EncodedJSValue JSC_HOST_CALL stringProtoFuncLastIndexOf(ExecState* exec)
         dpos = len;
 #if OS(SYMBIAN)
     // Work around for broken NaN compare operator
-    else if (isnan(dpos))
+    else if (std::isnan(dpos))
         dpos = len;
 #endif
 

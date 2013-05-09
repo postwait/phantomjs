@@ -1891,7 +1891,7 @@ void HTMLMediaElement::mediaPlayerTimeChanged(MediaPlayer*)
 
     float now = currentTime();
     float dur = duration();
-    if (!isnan(dur) && dur && now >= dur) {
+    if (!std::isnan(dur) && dur && now >= dur) {
         if (loop()) {
             ExceptionCode ignoredException;
             m_sentEndEvent = false;
@@ -2097,7 +2097,7 @@ bool HTMLMediaElement::couldPlayIfEnoughData() const
 bool HTMLMediaElement::endedPlayback() const
 {
     float dur = duration();
-    if (!m_player || isnan(dur))
+    if (!m_player || std::isnan(dur))
         return false;
 
     // 4.8.10.8 Playing the media resource

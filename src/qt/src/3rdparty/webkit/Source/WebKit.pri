@@ -143,6 +143,10 @@ valgrind {
     JAVASCRIPTCORE_JIT = no
 }
 
+solaris {
+    DEFINES += USE_SYSTEM_MALLOC=1
+}
+
 # Disable dependency to a specific version of a Qt package for non-production builds
 symbian:!CONFIG(production):default_deployment.pkg_prerules -= pkg_depends_qt
 

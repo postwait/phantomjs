@@ -1227,4 +1227,7 @@
 #define WTF_USE_UNIX_DOMAIN_SOCKETS 1
 #endif
 
+#if OS(SOLARIS)
+#define USE_SYSTEM_MALLOC 1
+#endif
 #endif /* WTF_Platform_h */

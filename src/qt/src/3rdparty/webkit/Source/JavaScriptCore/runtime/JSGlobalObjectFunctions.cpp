@@ -472,7 +472,7 @@ EncodedJSValue JSC_HOST_CALL globalFuncParseInt(ExecState* exec)
         double d = value.asDouble();
         if (isfinite(d))
             return JSValue::encode(jsNumber((d > 0) ? floor(d) : ceil(d)));
-        if (isnan(d) || isinf(d))
+        if (std::isnan(d) || isinf(d))
             return JSValue::encode(jsNaN());
         return JSValue::encode(jsNumber(0));
     }
@@ -487,13 +487,13 @@ EncodedJSValue JSC_HOST_CALL globalFuncParseFloat(ExecState* exec)
 
 EncodedJSValue JSC_HOST_CALL globalFuncIsNaN(ExecState* exec)
 {
-    return JSValue::encode(jsBoolean(isnan(exec->argument(0).toNumber(exec))));
+    return JSValue::encode(jsBoolean(std::isnan(exec->argument(0).toNumber(exec))));
 }
 
 EncodedJSValue JSC_HOST_CALL globalFuncIsFinite(ExecState* exec)
 {
     double n = exec->argument(0).toNumber(exec);
-    return JSValue::encode(jsBoolean(!isnan(n) && !isinf(n)));
+    return JSValue::encode(jsBoolean(!std::isnan(n) && !isinf(n)));
 }
 
 EncodedJSValue JSC_HOST_CALL globalFuncDecodeURI(ExecState* exec)

@@ -141,9 +141,16 @@ QT_END_INCLUDE_NAMESPACE
 
 Q_AUTOTEST_EXPORT_HELPER bool qIsLikelyToBeNfs(int handle)
 {
+#ifdef QT_STATVFS
+    struct statvfs buf;
+    if (fstatvfs(handle, &buf) != 0)
+        return false;
+#else
     struct statfs buf;
     if (fstatfs(handle, &buf) != 0)
         return false;
+#endif
+
     return qt_isEvilFsTypeName(buf.f_fstypename);
 }
 
@@ -177,7 +184,7 @@ Q_AUTOTEST_EXPORT_HELPER bool qIsLikelyToBeNfs(int handle)
 
 #elif defined(Q_OS_SOLARIS) || defined(Q_OS_IRIX) || defined(Q_OS_AIX) || defined(Q_OS_HPUX) \
       || defined(Q_OS_OSF) || defined(Q_OS_QNX) || defined(Q_OS_SCO) \
-      || defined(Q_OS_UNIXWARE) || defined(Q_OS_RELIANT) || defined(Q_OS_NETBSD)
+      || defined(Q_OS_UNIXWARE) || defined(Q_OS_RELIANT)
 QT_BEGIN_INCLUDE_NAMESPACE
 # include <sys/statvfs.h>
 QT_END_INCLUDE_NAMESPACE

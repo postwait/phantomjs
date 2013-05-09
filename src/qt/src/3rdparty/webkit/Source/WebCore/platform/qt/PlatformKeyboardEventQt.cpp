@@ -133,7 +133,7 @@ String keyIdentifierForQtKeyCode(int keyCode)
     case Qt::Key_Backtab:
         return "U+0009";
     default:
-        return String::format("U+%04X", toupper(keyCode));
+        return String::format("U+%04X", toupper((unsigned char)keyCode));
     }
 }
 

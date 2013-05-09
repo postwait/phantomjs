@@ -198,7 +198,7 @@ double parseDateFromNullTerminatedCharacters(ExecState* exec, const char* dateSt
     bool haveTZ;
     int offset;
     double ms = WTF::parseDateFromNullTerminatedCharacters(dateString, haveTZ, offset);
-    if (isnan(ms))
+    if (std::isnan(ms))
         return std::numeric_limits<double>::quiet_NaN();
 
     // fall back to local timezone
@@ -216,7 +216,7 @@ double parseDate(ExecState* exec, const UString& date)
     if (date == exec->globalData().cachedDateString)
         return exec->globalData().cachedDateStringValue;
     double value = parseES5DateFromNullTerminatedCharacters(date.utf8().data());
-    if (isnan(value))
+    if (std::isnan(value))
         value = parseDateFromNullTerminatedCharacters(exec, date.utf8().data());
     exec->globalData().cachedDateString = date;
     exec->globalData().cachedDateStringValue = value;
